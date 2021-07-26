@@ -4,8 +4,9 @@ services:
 before_install:
   - docker build -t sweber8211/docker-react -f Dockerfile.dev .
 script:
-  - docker run sweber8211/docker-react npm run test -- --coverage
+  - docker run -e CI=true sweber8211/docker-react npm run test
 deploy:
+  edge: true
   provider: elasticbeanstalk
   region: "eu-west-1"
   app: "docker-react"
@@ -14,6 +15,5 @@ deploy:
   bucket_path: "docker-react"
   on:
     branch: master
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key:
-    secure: "$AWS_SECRET_KEY"
+access_key_id: $AWS_ACCESS_KEY
+secret_access_key: $AWS_SECRET_KEY
